@@ -70,3 +70,4 @@ function resumeParStatut(commandes) {
   }, {});
 }
 
+array.reduce();
