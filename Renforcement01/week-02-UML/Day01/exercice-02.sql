@@ -106,4 +106,4 @@ FROM categories cat
 JOIN produits p ON cat.id = p.categorie_id
 JOIN lignes_commande lc ON p.id = lc.produit_id
 GROUP BY cat.id, cat.nom
-ORDER BY chiffre_affaires DESC;
+ORDER BY chiffre_affaires DESC;`
