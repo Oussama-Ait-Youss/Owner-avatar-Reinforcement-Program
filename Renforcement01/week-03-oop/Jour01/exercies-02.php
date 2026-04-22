@@ -39,22 +39,21 @@ class Produit
     private $categorie;
     private $actif;
 
-    public function __construct($nom,$description,$prix,$stock,$categorie,$actif)
+    public function __construct(string $nom, float $prix, int $stock, string $categorie)
     {      
 
     $this->nom = $nom;
-    $this->description = $description;
 
-    if(!$prix > 0){
-        throw new Exception("invalide prix");
+    if(!($prix > 0)){
+        throw new InvalidArgumentException("invalide prix");
     }
-    if(!$stock > 0){
-        throw new Exception("invalide stock");
+    if(!($stock > 0)){
+        throw new InvalidArgumentException("invalide stock");
     }
     $this->prix = $prix;
     $this->stock = $stock;
     $this->categorie = $categorie;
-    $this->actif = $actif;
+    $this->actif = true;
     }
 
 
@@ -62,11 +61,11 @@ class Produit
 
     public function approvisionner(int $quantite)
     {
-        if(!$quantite <= 0){
-            throw new Exception("Quantite > 1 at least...");
+        if(!($quantite <= 0)){
+            throw new InvalidArgumentException("Quantite > 1 at least...");
         }
 
-        $this->stock = $quantite;
+        $this->stock += $quantite;
     }
 
 //     vendre(int $quantite) : float
@@ -81,7 +80,12 @@ class Produit
             throw new RuntimeException("stock insuffisant");
         }
 
-        $this->stock =- $quantite;
+
+
+
+
+
+        $this->stock -= $quantite;
 
         return $this->prix * $quantite;
     }
@@ -99,12 +103,40 @@ class Produit
     $this->prix -= ($this->prix * $pourcentage / 100);
 }
 
-        public function estDisponible(){
-            if($this->stock > 0 && $this->actif == true){
-                return 1;
-            }
+        public function estDisponible()
+        {
+
+            return $this->stock > 0 && $this->actif == true;
 
         }
+
+        }
+
+        // to array 
+        public function toarray(){
+            return [
+                'nom' => $this->nom,
+                'description' => $this->description,
+                'prix' => $this->prix,
+                'stock' => $this->stock,
+                'categorie' => $this->categorie,
+                'actif' => $this->actif
+            ];
+        }
+
+
+        // getters
+
+        public function getStock(){
+            return $this->stock;
+        }
+
+        public function getPrix(){
+            return $this->prix;
+        }
+
+
+
 
 }
 
